@@ -1,0 +1,392 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../js/**/*.{vue,jsx,tsx,ts}';
+@source '../views/**/*.blade.php';
+
+/*
+ |------------------------------------------------------------------------------
+ | Design tokens
+ |------------------------------------------------------------------------------
+ | Palette: https://coolors.co/palette/0a0908-22333b-eae0d5-c6ac8f-5e503f
+ |   ink      #0a0908   near-black
+ |   charcoal #22333b   dark blue-grey
+ |   bone     #eae0d5   warm cream
+ |   tan      #c6ac8f   khaki
+ |   umber    #5e503f   brown
+ |
+ | Every family carries a full 50-950 ramp so hovers, borders, rings and
+ | tinted surfaces can be layered without ever stepping outside the palette.
+ |------------------------------------------------------------------------------
+ */
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Instrument Serif', ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+
+    /* ink — warm near-black */
+    --color-ink-50: #f7f6f5;
+    --color-ink-100: #ecebe9;
+    --color-ink-200: #d6d4d1;
+    --color-ink-300: #b3b0ab;
+    --color-ink-400: #8a857e;
+    --color-ink-500: #6b665f;
+    --color-ink-600: #545049;
+    --color-ink-700: #43403a;
+    --color-ink-800: #2f2c28;
+    --color-ink-900: #1c1a17;
+    --color-ink-950: #0a0908;
+
+    /* charcoal — dark blue-grey */
+    --color-charcoal-50: #f3f6f7;
+    --color-charcoal-100: #e4ebee;
+    --color-charcoal-200: #c9d8dd;
+    --color-charcoal-300: #a2bac3;
+    --color-charcoal-400: #7495a2;
+    --color-charcoal-500: #557786;
+    --color-charcoal-600: #435f6c;
+    --color-charcoal-700: #384e59;
+    --color-charcoal-800: #2d3f48;
+    --color-charcoal-900: #22333b;
+    --color-charcoal-950: #141f25;
+
+    /* bone — warm cream */
+    --color-bone-50: #fcfaf7;
+    --color-bone-100: #f8f3ec;
+    --color-bone-200: #efe6da;
+    --color-bone-300: #eae0d5;
+    --color-bone-400: #d9c8b2;
+    --color-bone-500: #c4ad91;
+    --color-bone-600: #ab9273;
+    --color-bone-700: #8e765c;
+    --color-bone-800: #74604c;
+    --color-bone-900: #5f5040;
+    --color-bone-950: #332a21;
+
+    /* tan — khaki */
+    --color-tan-50: #fbf8f4;
+    --color-tan-100: #f5eee3;
+    --color-tan-200: #ecdec8;
+    --color-tan-300: #dcc7a6;
+    --color-tan-400: #c6ac8f;
+    --color-tan-500: #b0956f;
+    --color-tan-600: #9a7d5b;
+    --color-tan-700: #80654a;
+    --color-tan-800: #695340;
+    --color-tan-900: #564537;
+    --color-tan-950: #2e241c;
+
+    /* umber — brown */
+    --color-umber-50: #f8f6f3;
+    --color-umber-100: #efeae4;
+    --color-umber-200: #ded5c9;
+    --color-umber-300: #c5b7a3;
+    --color-umber-400: #a5947c;
+    --color-umber-500: #8b7760;
+    --color-umber-600: #74614e;
+    --color-umber-700: #5e503f;
+    --color-umber-800: #4c4235;
+    --color-umber-900: #3e362c;
+    --color-umber-950: #211c17;
+
+    /* surfaces */
+    --color-canvas: #fcfaf7;
+    --color-canvas-deep: #f6f1e9;
+
+    --shadow-soft: 0 1px 2px rgba(10, 9, 8, 0.04), 0 10px 28px -18px rgba(34, 51, 59, 0.35);
+    --shadow-lift: 0 2px 4px rgba(10, 9, 8, 0.05), 0 28px 56px -28px rgba(34, 51, 59, 0.45);
+    --shadow-inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background-color: var(--color-canvas);
+        color: var(--color-ink-900);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+        background-color: var(--color-tan-300);
+        color: var(--color-ink-950);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-umber-600);
+        outline-offset: 2px;
+    }
+
+    /* Named heading rhythm used across the storefront */
+    .title {
+        font-weight: 500;
+        letter-spacing: -0.015em;
+        color: var(--color-ink-950);
+    }
+
+    .title b,
+    .title strong {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-style: italic;
+        color: var(--color-umber-700);
+    }
+}
+
+@layer components {
+    /* Wide editorial container — mirrors the reference `container-custom` */
+    .container-page {
+        width: 100%;
+        max-width: 1400px;
+        margin-inline: auto;
+        padding-inline: 1rem;
+    }
+
+    @media (min-width: 640px) {
+        .container-page {
+            padding-inline: 1.5rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .container-page {
+            padding-inline: 2.5rem;
+        }
+    }
+
+    /* ---------------------------------------------------------------- buttons */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        line-height: 1;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+
+    .btn:disabled,
+    .btn[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .btn-primary {
+        background-image: linear-gradient(180deg, var(--color-ink-800), var(--color-ink-950));
+        color: var(--color-bone-100);
+        box-shadow: var(--shadow-inset-top), 0 10px 24px -16px rgba(10, 9, 8, 0.8);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+        background-image: linear-gradient(180deg, var(--color-ink-700), var(--color-ink-900));
+    }
+
+    .btn-accent {
+        background-image: linear-gradient(180deg, var(--color-tan-300), var(--color-tan-500));
+        color: var(--color-ink-950);
+        box-shadow: var(--shadow-inset-top), 0 10px 24px -18px rgba(94, 80, 63, 0.9);
+    }
+
+    .btn-accent:hover:not(:disabled) {
+        background-image: linear-gradient(180deg, var(--color-tan-200), var(--color-tan-400));
+    }
+
+    .btn-outline {
+        border-color: var(--color-ink-300);
+        color: var(--color-ink-900);
+        background-color: transparent;
+    }
+
+    .btn-outline:hover:not(:disabled) {
+        border-color: var(--color-ink-950);
+        background-color: var(--color-ink-950);
+        color: var(--color-bone-100);
+    }
+
+    .btn-ghost {
+        color: var(--color-ink-700);
+        background-color: transparent;
+    }
+
+    .btn-ghost:hover:not(:disabled) {
+        background-color: var(--color-bone-100);
+        color: var(--color-ink-950);
+    }
+
+    .btn-sm {
+        padding: 0.5rem 1rem;
+        font-size: 0.8125rem;
+    }
+
+    /* ----------------------------------------------------------------- inputs */
+    .input,
+    .select,
+    .textarea {
+        width: 100%;
+        border-radius: 0.5rem;
+        border: 1px solid var(--color-bone-400);
+        background-color: var(--color-bone-50);
+        padding: 0.625rem 0.875rem;
+        font-size: 0.875rem;
+        color: var(--color-ink-900);
+        transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    }
+
+    .input::placeholder,
+    .textarea::placeholder {
+        color: var(--color-ink-400);
+    }
+
+    .input:focus,
+    .select:focus,
+    .textarea:focus {
+        outline: none;
+        border-color: var(--color-umber-600);
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(198, 172, 143, 0.35);
+    }
+
+    .label {
+        display: block;
+        margin-bottom: 0.375rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--color-ink-700);
+    }
+
+    /* ---------------------------------------------------------------- surfaces */
+    .card-surface {
+        border-radius: 1rem;
+        border: 1px solid var(--color-bone-300);
+        background-image: linear-gradient(180deg, #fff, var(--color-bone-50));
+        box-shadow: var(--shadow-soft);
+    }
+
+    .card-surface-hover {
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .card-surface-hover:hover {
+        transform: translateY(-3px);
+        border-color: var(--color-tan-400);
+        box-shadow: var(--shadow-lift);
+    }
+
+    /* ---------------------------------------------------------------- badges */
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        border-radius: 999px;
+        padding: 0.25rem 0.625rem;
+        font-size: 0.6875rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        line-height: 1.4;
+    }
+
+    .badge-ink {
+        background-color: var(--color-ink-950);
+        color: var(--color-bone-100);
+    }
+
+    .badge-tan {
+        background-color: var(--color-tan-200);
+        color: var(--color-umber-800);
+    }
+
+    .badge-muted {
+        background-color: var(--color-bone-200);
+        color: var(--color-ink-600);
+    }
+
+    /* --------------------------------------------------------- section heading */
+    .eyebrow {
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--color-umber-600);
+    }
+
+    /* Dark band used by newsletter / footer style sections */
+    .band-dark {
+        background-image:
+            radial-gradient(120% 120% at 0% 0%, rgba(198, 172, 143, 0.18) 0%, transparent 55%),
+            linear-gradient(140deg, var(--color-charcoal-900), var(--color-ink-950));
+        color: var(--color-bone-200);
+    }
+
+    /* Subtle warm panel used behind the hero */
+    .panel-warm {
+        background-image:
+            radial-gradient(90% 120% at 100% 0%, rgba(198, 172, 143, 0.45) 0%, transparent 60%),
+            linear-gradient(160deg, var(--color-bone-100), var(--color-bone-300));
+    }
+
+    /* Keep long-form CMS content readable */
+    .prose-content {
+        color: var(--color-ink-700);
+        line-height: 1.75;
+    }
+
+    .prose-content h2 {
+        margin-top: 2rem;
+        margin-bottom: 0.75rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--color-ink-950);
+    }
+
+    .prose-content h3 {
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: var(--color-ink-900);
+    }
+
+    .prose-content p {
+        margin-bottom: 1rem;
+    }
+
+    .prose-content ul,
+    .prose-content ol {
+        margin-bottom: 1rem;
+        padding-left: 1.25rem;
+    }
+
+    .prose-content ul {
+        list-style: disc;
+    }
+
+    .prose-content ol {
+        list-style: decimal;
+    }
+
+    .prose-content a {
+        color: var(--color-umber-700);
+        text-decoration: underline;
+    }
+}
+
+/* Hide the native number-input spinners on quantity steppers */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}

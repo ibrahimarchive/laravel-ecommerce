@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Product image placeholder">
+  <rect width="800" height="800" fill="#f1f5f9"/>
+  <g fill="none" stroke="#cbd5e1" stroke-width="14" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M250 300h300l40 300H210l40-300Z"/>
+    <path d="M330 300v-40a70 70 0 0 1 140 0v40"/>
+  </g>
+  <text x="400" y="680" font-family="Instrument Sans, system-ui, sans-serif" font-size="34" fill="#94a3b8" text-anchor="middle">No image available</text>
+</svg>
